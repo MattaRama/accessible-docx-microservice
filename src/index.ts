@@ -11,7 +11,7 @@ app.use(fileUpload());
 app.use(express.json());
 app.use('/', routes);
 
-const SERVER_PORT = parseInt(process.env['SERVER_PORT']!);
+const SERVER_PORT = parseInt(process.env.PORT || process.env.SERVER_PORT || '8080', 10);
 
 app.listen(SERVER_PORT, () => {
   console.log('Application started on port ' + SERVER_PORT);

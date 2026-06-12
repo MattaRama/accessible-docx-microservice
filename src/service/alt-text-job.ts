@@ -10,6 +10,7 @@ export interface AltTextJob {
   result: UploadedFile | null;
   status: AltTextJobStatus;
   errorReason?: string;
+  supabaseId?: string;
   onComplete: CompletionCallback[];
 };
 
