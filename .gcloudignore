@@ -1,0 +1,16 @@
+# Ignore Git and metadata
+.git
+.gitignore
+
+# Ignore local dependencies and environments
+node_modules/
+.env
+.env.local
+.env.development
+.env.production
+.temp/
+
+# Ignore Docker files not needed for Cloud Build source upload
+Dockerfile
+.dockerignore
+.gcloudignore
