@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "bun src/index.ts",
-    "gentypes": "bunx supabase gen types typescript --project-id bgewlzdpjpjyzbwlehsg > supabase/database.types.ts",
+    "gentypes": "mkdir -p supabase && bunx supabase gen types typescript --project-id bgewlzdpjpjyzbwlehsg > supabase/database.types.ts",
     "genkey": "bun tools/genkey.ts"
   },
   "devDependencies": {
