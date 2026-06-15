@@ -44,7 +44,17 @@ export const apiKeyAuth = async (req: Request, res: Response, next: NextFunction
     return;
   }
 
-  const authRow = await checkApiKey(apiKeySplit[1]!);
+  let authRow;
+  try {
+    authRow = await checkApiKey(apiKeySplit[1]!);
+  } catch (error) {
+    res.status(401).json({
+      error: 'Unauthorized',
+      message: 'Unable to lookup API key.'
+    });
+    return;
+  }
+
 
   if (!authRow) {
     res.status(403).json({ 
