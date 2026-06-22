@@ -24,15 +24,19 @@ function mapTextChunk(chunk: RagChunk): string {
 async function describeImage(image: ExtractedImage, job: AltTextJob): Promise<string> {
   const prompt = describeImagePrompt(image.buffer, image.contentType);
 
+  const startTime = new Date().toISOString();
+
   const response = await ai.responses.create({
     model: DEFAULT_LLM_MODEL,
     input: prompt,
   });
 
+  const endTime = new Date().toISOString();
+
   logAIInteraction(
     job,
-    new Date(response.created_at * 1000).toISOString(),
-    (response.completed_at ? new Date(response.completed_at) : new Date()).toISOString(),
+    startTime,
+    endTime,
     'describe',
     JSON.stringify(prompt),
     response.usage?.input_tokens,
