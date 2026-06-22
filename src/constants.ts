@@ -1,1 +1,10 @@
-export const DOCX_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+export const DOCX_MIME_TYPE =
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+export enum LogLevel {
+  "LIMITED" = 0,
+  "TRANSCRIPTION" = 1,
+  "FULL" = 2,
+}
+
+export const DEFAULT_LOG_LEVEL = LogLevel.TRANSCRIPTION;

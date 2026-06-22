@@ -1,4 +1,5 @@
 import type { UploadedFile } from "express-fileupload";
+import type { LogLevel } from "../constants";
 
 export type AltTextJobStatus = "PENDING" | "RUNNING" | "FAILED" | "COMPLETE";
 
@@ -12,8 +13,10 @@ export interface AltTextJob {
   errorReason?: string;
   supabaseId?: string;
   onComplete: CompletionCallback[];
+  loggingLevel: LogLevel;
 };
 
 export interface StartAltTextJobOptions {
   file: UploadedFile;
+  logLevel?: LogLevel;
 }

@@ -4,6 +4,7 @@ import { v4 as genId } from 'uuid';
 
 import { processFile } from './alt-text-generator';
 import { logCreateJobStat, logJobFailed, logUpdateJobStatTimestamp } from '../logging';
+import { DEFAULT_LOG_LEVEL } from '../constants';
 
 const CONCURRENCY_LIMIT = parseInt(process.env['JOB_CONCURRENCY_LIMIT'] || '10');
 const JOB_HOLD_TIME = parseInt(process.env['JOB_HOLD_TIME_SECS'] || '900');
@@ -25,7 +26,8 @@ export async function createJob(options: StartAltTextJobOptions) {
     file: options.file,
     status: 'PENDING',
     result: null,
-    onComplete: []
+    onComplete: [],
+    loggingLevel: options.logLevel || DEFAULT_LOG_LEVEL
   };
 
   jobInfo[job.id] = job;

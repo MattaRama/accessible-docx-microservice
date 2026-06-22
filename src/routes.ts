@@ -4,7 +4,7 @@ import type { UploadedFile } from 'express-fileupload';
 import { createJob, getJob } from './service/alt-text-service';
 import type { AltTextJobStatusResponse, AltTextStartJobResponse } from './responses';
 import { apiKeyAuth } from './auth';
-import { DOCX_MIME_TYPE } from './constants';
+import { DEFAULT_LOG_LEVEL, DOCX_MIME_TYPE, LogLevel } from './constants';
 const { Router } = express;
 
 const router = Router();
@@ -24,10 +24,19 @@ router.post('/', apiKeyAuth, async (req: Request, res: Response<AltTextStartJobR
       return;
     }
 
+    const logLevel = req.body['logLevel'] || DEFAULT_LOG_LEVEL;
+
+    if (logLevel > LogLevel.FULL || logLevel < 0) {
+      res.status(400).send({
+        reason: `Invalid logLevel parameter (must be ${LogLevel.LIMITED}-${LogLevel.FULL})`
+      });
+      return;
+    }
+
     // start job
     let job;
     try {
-      job = await createJob({file: uploadedFile});
+      job = await createJob({file: uploadedFile, logLevel: logLevel});
     } catch (err) {
       res.status(500).send({
         reason: 'Internal server error.'

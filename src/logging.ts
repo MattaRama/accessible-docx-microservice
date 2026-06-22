@@ -1,3 +1,4 @@
+import { LogLevel } from "./constants";
 import type { AltTextJob } from "./service/alt-text-job";
 import { supabase } from "./supabase";
 
@@ -47,14 +48,19 @@ export async function logAIInteraction(
   startTime: string,
   endTime: string,
   type: AIInteractionType,
-  prompt: string,
+  prompt?: string,
   inputTokens?: number,
   outputTokens?: number,
   totalTokens?: number,
   error?: string,
   output?: string,
 ) {
-  await supabase.from('aiinteraction').insert({
+  if (job.loggingLevel < LogLevel.TRANSCRIPTION) {
+    prompt = undefined;
+    output = undefined;
+  }
+
+  const logObject = {
     jobstats_id: job.supabaseId,
     start_time: startTime,
     end_time: endTime,
@@ -66,5 +72,7 @@ export async function logAIInteraction(
     output,
     error,
     source: 'docx'
-  });
+  };
+
+  await supabase.from('aiinteraction').insert(logObject);
 }
